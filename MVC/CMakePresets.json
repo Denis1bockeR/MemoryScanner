@@ -1,0 +1,11 @@
+{
+  "version": 4,
+  "include": ["../CMakePresets.json"],
+  "configurePresets": [
+	  {
+      "name": "default",
+      "inherits": "bocker-scanner",
+      }
+    }
+  ]
+}

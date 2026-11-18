@@ -1,0 +1,13 @@
+{
+  "version": 4,
+  "include": ["../CMakePresets.json"],
+  "configurePresets": [
+    {
+      "name": "default",
+      "inherits": "bocker-scanner",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+      }
+    }
+  ]
+}

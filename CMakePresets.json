@@ -1,0 +1,14 @@
+{
+  "version": 4,
+  "configurePresets": [
+    {
+      "name": "bocker-scanner",
+      "generator": "Ninja",
+	  "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+		"CMAKE_MAKE_PROGRAM": "C:/Users/denis/AppData/Local/Microsoft/WinGet/Links/ninja.exe",
+		"CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+      }
+    }
+  ]
+}	
