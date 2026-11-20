@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "defines.h"
+#include "../defines.h"
 
 namespace core
 {
