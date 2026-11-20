@@ -37,7 +37,6 @@ namespace core
 		}
 	}
 
-
 	ProcessMemoryWindows::~ProcessMemoryWindows()
 	{
 		detach();
@@ -51,15 +50,16 @@ namespace core
 
 		HANDLE handle = ::OpenProcess(PROCESS_ALL_ACCESS, false, pid);
 
-		if (!handle) halde = ::OpenProcess(PROCESS_VM_READ | PROCESS_QUERY_LIMITED_INFORMATION, false, pid);
+		if (!handle) handle = ::OpenProcess(PROCESS_VM_READ | PROCESS_QUERY_LIMITED_INFORMATION, false, pid);
 
 		if (!handle) return false;
 
 		m_hProcess = handle;
 		m_pid = pid;
+		m_target64 = isProcess64bit(handle);
 
-		bool wow64, = FALSE;
-		if (sizeof(void*) == 4 && !((!::IsWow64Process(hProc, &wow64) && sizeof(void*) == 8) || sizeof(void*) == 8 && !wow64))
+		int wow64 = 0;
+		if (sizeof(void*) == 4 && m_target64)
 		{
 			detach();
 			return false;
@@ -77,6 +77,7 @@ namespace core
 		}
 
 		m_pid = 0;
+		m_target64 = false;
 	}
 
 	bool ProcessMemoryWindows::read(uintptr_t address, void* buffer, size_t size)
@@ -84,7 +85,7 @@ namespace core
 		if (!m_hProcess || !buffer || size == 0) return false;
 
 		size_t bytesRead = 0;
-		auto readOk = ::ReadProcessMemory(m_hProcess, reinterpreat_cast<const void*>(address), buffer, size, &bytesRead);
+		auto readOk = ::ReadProcessMemory(m_hProcess, reinterpret_cast<const void*>(address), buffer, size, &bytesRead);
 
 		return readOk && bytesRead == size;
 	}
@@ -94,7 +95,7 @@ namespace core
 		if (!m_hProcess || !buffer || size == 0) return false;
 
 		size_t bytesWrite = 0;
-		auto readOk = ::WriteProcessMemory(m_hProcess, address, buffer, size, &bytesWrite);
+		auto readOk = ::WriteProcessMemory(m_hProcess, reinterpret_cast<void*>(address), buffer, size, &bytesWrite);
 
 		return readOk && bytesWrite == size;
 	}

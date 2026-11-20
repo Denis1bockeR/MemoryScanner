@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
 
 #ifdef _WIN32
 using pid_t = uint32_t;
@@ -10,6 +11,14 @@ using pid_t = uint32_t;
 
 namespace core
 {
+    struct ProcessInfo {
+        pid_t    pid = 0;
+        pid_t    parentPid = 0;
+        std::string name;
+        std::string path;
+        bool        is64bit = false;
+    };
+
     struct MemoryRegion
     {
         uintptr_t base = 0;

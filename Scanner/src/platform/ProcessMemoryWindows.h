@@ -1,3 +1,5 @@
+#pragma once
+
 #include <Windows.h>
 #include "IProcessMemory.h"
 
@@ -27,5 +29,6 @@ namespace core
     private:
         HANDLE   m_hProcess = nullptr;
         uint32_t m_pid = 0;
+        bool     m_target64 = false;
 	};
 }
