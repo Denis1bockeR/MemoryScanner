@@ -1,8 +1,11 @@
+#include "platform/ProcessEnumeratorWindows.h"
 #include <iostream>
 
 int main()
 {
-	int i;
-	std::cin >> i;
-	return 0;
+	auto i = core::ProcessEnumeratorWindows();
+	i.list();
+
+	int x;
+	std::cin >> x;
 }

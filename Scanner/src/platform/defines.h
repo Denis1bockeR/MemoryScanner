@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <string>
 
+#include <Windows.h>
+
 #ifdef _WIN32
 using pid_t = uint32_t;
 #else
@@ -30,4 +32,12 @@ namespace core
         bool      writable = false;
         bool      executable = false;
     };
+
+    inline bool isProcess64bit(HANDLE hProc)
+    {
+        int wow64 = 0;
+        if (!::IsWow64Process(hProc, &wow64))
+            return sizeof(void*) == 8;
+        return (sizeof(void*) == 8) && !wow64;
+    }
 }

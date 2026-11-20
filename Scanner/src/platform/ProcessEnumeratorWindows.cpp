@@ -50,9 +50,8 @@ namespace core
                     info.path = queryProcessPath(hProcess);
                     info.is64bit = isProcess64bit(hProcess);
                     ::CloseHandle(hProcess);
+                    result.push_back(std::move(info));
                 }
-
-                result.push_back(std::move(info));
             } while (::Process32NextW(hSnap, &pe));
         }
 
