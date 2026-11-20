@@ -6,34 +6,34 @@ namespace core
 {
     struct ScanValue
     {
-        ValueType type = ValueType::Int32;
-        ValuePayload payload;
+        ValueType m_type = ValueType::Int32;
+        ValuePayload m_payload;
 
         template <typename T>
         static ScanValue makeNumber(ValueType t, T v)
         {
             ScanValue s;
-            s.type = t;
+            s.m_type = t;
             if (t == ValueType::Float || t == ValueType::Double)
-                s.payload = static_cast<double>(v);
+                s.m_payload = static_cast<double>(v);
             else
-                s.payload = static_cast<int64_t>(v);
+                s.m_payload = static_cast<int64_t>(v);
             return s;
         }
 
         static ScanValue makeString(std::string v)
         {
             ScanValue s;
-            s.type = ValueType::String;
-            s.payload = std::move(v);
+            s.m_type = ValueType::String;
+            s.m_payload = std::move(v);
             return s;
         }
 
         static ScanValue makeBytes(std::vector<uint8_t> v)
         {
             ScanValue s;
-            s.type = ValueType::Bytes;
-            s.payload = std::move(v);
+            s.m_type = ValueType::Bytes;
+            s.m_payload = std::move(v);
             return s;
         }
 
@@ -77,15 +77,15 @@ namespace core
     inline std::vector<uint8_t> ScanValue::toBytes() const
     {
         std::vector<uint8_t> out;
-        switch (type) {
+        switch (m_type) {
         case ValueType::Int8:
         {
             out.resize(1);
-            out[0] = static_cast<uint8_t>(std::get<int64_t>(payload));
+            out[0] = static_cast<uint8_t>(std::get<int64_t>(m_payload));
             break;
         }
         case ValueType::Int16: {
-            int16_t v = static_cast<int16_t>(std::get<int64_t>(payload));
+            int16_t v = static_cast<int16_t>(std::get<int64_t>(m_payload));
             out.resize(sizeof(v));
             std::memcpy(out.data(), &v, sizeof(v));
             break;
@@ -106,26 +106,26 @@ namespace core
         }
         case ValueType::Float:
         {
-            float v = static_cast<float>(std::get<double>(payload));
+            float v = static_cast<float>(std::get<double>(m_payload));
             out.resize(sizeof(v));
             std::memcpy(out.data(), &v, sizeof(v));
             break;
         }
         case ValueType::Double:
         {
-            double v = std::get<double>(payload);
+            double v = std::get<double>(m_payload);
             out.resize(sizeof(v));
             std::memcpy(out.data(), &v, sizeof(v));
             break;
         }
         case ValueType::String:
         {
-            const auto& s = std::get<std::string>(payload);
+            const auto& s = std::get<std::string>(m_payload);
             out.assign(s.begin(), s.end());
             break;
         }
         case ValueType::Bytes:
-            out = std::get<std::vector<uint8_t>>(payload);
+            out = std::get<std::vector<uint8_t>>(m_payload);
             break;
         }
         return out;
