@@ -12,7 +12,3 @@ add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 set_target_properties(Scanner PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin"
 )
-
-if(MINGW)
-    target_link_libraries(${PROJECT_NAME} PRIVATE kernel32)
-endif()

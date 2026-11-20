@@ -20,7 +20,7 @@ namespace core
         pid_t parentPid = 0;
         std::string name;
         std::string path;
-        bool is64bit = false;
+        bool is64bit = false;   
     };
 
     struct MemoryRegion
