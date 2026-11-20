@@ -16,7 +16,7 @@ namespace core
         return out;
     }
 
-    std::string queryImagePath(HANDLE hProc) 
+    std::string queryProcessPath(HANDLE hProc) 
     {
         wchar_t buf[MAX_PATH * 4] = {};
         DWORD size = static_cast<DWORD>(std::size(buf));
@@ -47,7 +47,7 @@ namespace core
 
                 if (HANDLE hProcess = ::OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, info.pid)) 
                 {
-                    info.path = queryImagePath(hProcess);
+                    info.path = queryProcessPath(hProcess);
                     info.is64bit = isProcess64bit(hProcess);
                     ::CloseHandle(hProcess);
                 }
@@ -67,7 +67,7 @@ namespace core
 
         out = ProcessInfo{};
         out.pid = pid;
-        out.path = queryImagePath(h);
+        out.path = queryProcessPath(h);
         out.is64bit = isProcess64bit(h);
 
         auto pos = out.path.find_last_of("\\/");
